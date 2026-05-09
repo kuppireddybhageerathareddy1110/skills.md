@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: transparent; font-family: var(--font-sans, 'Inter', sans-serif); color: var(--color-text-primary); }
+
+.omega-wrap { padding: 16px 0; width: 100%; }
+
+.omega-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.omega-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #7c3aed 0%, #2563eb 50%, #059669 100%);
+  color: white;
+  font-size: 22px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 10px;
+}
+
+.omega-badge .omega-symbol {
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.omega-subtitle {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-top: 6px;
+}
+
+.skill-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.skill-card {
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  padding: 12px 14px;
+  background: var(--color-background-secondary);
+  cursor: pointer;
+  transition: border-color 0.15s, transform 0.15s;
+  position: relative;
+  overflow: hidden;
+}
+
+.skill-card:hover {
+  border-color: var(--color-border-secondary);
+  transform: translateY(-1px);
+}
+
+.skill-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: 2px 0 0 2px;
+}
+
+.skill-card[data-color="purple"]::before { background: #7c3aed; }
+.skill-card[data-color="blue"]::before   { background: #2563eb; }
+.skill-card[data-color="teal"]::before   { background: #0d9488; }
+.skill-card[data-color="amber"]::before  { background: #d97706; }
+.skill-card[data-color="coral"]::before  { background: #dc2626; }
+.skill-card[data-color="green"]::before  { background: #059669; }
+.skill-card[data-color="pink"]::before   { background: #db2777; }
+
+.skill-tag {
+  font-size: 10px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  opacity: 0.55;
+  margin-bottom: 4px;
+}
+
+.skill-name {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+}
+
+.skill-desc {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-top: 4px;
+  line-height: 1.4;
+}
+
+.omega-center {
+  border: 1.5px solid var(--color-border-primary);
+  border-radius: 12px;
+  padding: 14px 20px;
+  background: var(--color-background-secondary);
+  margin-bottom: 16px;
+}
+
+.omega-center-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.pipeline {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.phase {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.phase-1 { background: rgba(124,58,237,0.12); color: #7c3aed; }
+.phase-2 { background: rgba(37,99,235,0.12); color: #2563eb; }
+.phase-3 { background: rgba(13,148,136,0.12); color: #0d9488; }
+.phase-4 { background: rgba(217,119,6,0.12); color: #d97706; }
+.phase-5 { background: rgba(220,38,38,0.12); color: #dc2626; }
+.phase-6 { background: rgba(5,150,105,0.12); color: #059669; }
+
+.arrow-sep {
+  color: var(--color-text-secondary);
+  font-size: 14px;
+  opacity: 0.5;
+}
+
+.invoke-section {
+  margin-top: 14px;
+}
+
+.invoke-title {
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  margin-bottom: 8px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.invoke-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.invoke-pill {
+  font-size: 11px;
+  font-family: var(--font-mono, monospace);
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--color-background-primary);
+  border: 1px solid var(--color-border-secondary);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: border-color 0.12s;
+}
+
+.invoke-pill:hover {
+  border-color: var(--color-border-primary);
+  color: var(--color-text-primary);
+}
+
+.philosophy {
+  border: 1px solid var(--color-border-tertiary);
+  border-radius: 10px;
+  padding: 14px 18px;
+  font-size: 12px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  text-align: center;
+  font-style: italic;
+}
+
+.philosophy strong {
+  color: var(--color-text-primary);
+  font-style: normal;
+  font-weight: 500;
+}
+
+.omega-footer {
+  text-align: center;
+  margin-top: 10px;
+  font-size: 11px;
+  color: var(--color-text-secondary);
+  opacity: 0.65;
+}
+</style>
+</head>
+<body>
+<div class="omega-wrap">
+
+  <div class="omega-header">
+    <div class="omega-badge">
+      <span class="omega-symbol">Ω</span>
+      OMEGA SKILL
+    </div>
+    <div class="omega-subtitle">The unified superintelligence meta-framework — 20 skills, one activation</div>
+  </div>
+
+  <div class="skill-grid">
+    <div class="skill-card" data-color="purple" onclick="sendPrompt('Show me what OMEGA can do for AI/ML engineering')">
+      <div class="skill-tag">AI Core</div>
+      <div class="skill-name">AI/ML Engineering</div>
+      <div class="skill-desc">PyTorch, transformers, XAI, LoRA fine-tuning, research pipelines</div>
+    </div>
+    <div class="skill-card" data-color="purple" onclick="sendPrompt('Use OMEGA for quantum AI engineering')">
+      <div class="skill-tag">Quantum</div>
+      <div class="skill-name">Quantum AI</div>
+      <div class="skill-desc">QNN, QAOA, VQE, NISQ, hybrid quantum-classical systems</div>
+    </div>
+    <div class="skill-card" data-color="blue" onclick="sendPrompt('Use OMEGA to design an AI architecture')">
+      <div class="skill-tag">Architect</div>
+      <div class="skill-name">AI Architecture</div>
+      <div class="skill-desc">MLOps, feature stores, model serving, governance, roadmap</div>
+    </div>
+    <div class="skill-card" data-color="blue" onclick="sendPrompt('Use OMEGA for data science workflow')">
+      <div class="skill-tag">Data Science</div>
+      <div class="skill-name">DS Workflow</div>
+      <div class="skill-desc">EDA, feature engineering, baseline → SOTA, Optuna HPO, deploy</div>
+    </div>
+    <div class="skill-card" data-color="teal" onclick="sendPrompt('Use OMEGA to generate an API contract')">
+      <div class="skill-tag">API</div>
+      <div class="skill-name">API Contracts</div>
+      <div class="skill-desc">OpenAPI 3.1, Zod, Pydantic v2, integration tests</div>
+    </div>
+    <div class="skill-card" data-color="teal" onclick="sendPrompt('Use OMEGA to build a fullprojectwithcode')">
+      <div class="skill-tag">Dev</div>
+      <div class="skill-name">Full-Stack Dev</div>
+      <div class="skill-desc">Next.js 15, tRPC, Prisma, shadcn/ui, edge deployment</div>
+    </div>
+    <div class="skill-card" data-color="amber" onclick="sendPrompt('Use OMEGA to do a financial analysis')">
+      <div class="skill-tag">Finance</div>
+      <div class="skill-name">Financial Analysis</div>
+      <div class="skill-desc">DCF, ratios, Altman Z, Beneish M, investment thesis</div>
+    </div>
+    <div class="skill-card" data-color="amber" onclick="sendPrompt('Use OMEGA to analyze a dataset')">
+      <div class="skill-tag">Data</div>
+      <div class="skill-name">EDA & Analysis</div>
+      <div class="skill-desc">Statistical profiling, anomaly detection, business insight layer</div>
+    </div>
+    <div class="skill-card" data-color="coral" onclick="sendPrompt('Use OMEGA to do a full code review')">
+      <div class="skill-tag">Code Review</div>
+      <div class="skill-name">Code Architect Review</div>
+      <div class="skill-desc">Security, perf, correctness, architecture — all 6 dimensions</div>
+    </div>
+    <div class="skill-card" data-color="coral" onclick="sendPrompt('Use OMEGA to validate my ML pipeline')">
+      <div class="skill-tag">ML Ops</div>
+      <div class="skill-name">ML Pipeline Validator</div>
+      <div class="skill-desc">Data leakage, train-serve skew, reproducibility, governance</div>
+    </div>
+    <div class="skill-card" data-color="green" onclick="sendPrompt('Use OMEGA to build an MCP server')">
+      <div class="skill-tag">MCP</div>
+      <div class="skill-name">MCP Builder</div>
+      <div class="skill-desc">FastMCP servers, tool design, auth, rate limiting, Claude tools</div>
+    </div>
+    <div class="skill-card" data-color="green" onclick="sendPrompt('Use OMEGA to do academic research')">
+      <div class="skill-tag">Research</div>
+      <div class="skill-name">Academic & Research</div>
+      <div class="skill-desc">7-layer paraphrasing, citation styles, anti-AI-detection</div>
+    </div>
+    <div class="skill-card" data-color="pink" onclick="sendPrompt('Use OMEGA to create algorithmic art')">
+      <div class="skill-tag">Art</div>
+      <div class="skill-name">Algorithmic Art</div>
+      <div class="skill-desc">p5.js flow fields, Perlin noise, particles, generative systems</div>
+    </div>
+    <div class="skill-card" data-color="pink" onclick="sendPrompt('Use OMEGA to design a canvas poster')">
+      <div class="skill-tag">Design</div>
+      <div class="skill-name">Canvas Design</div>
+      <div class="skill-desc">Golden ratio, typography hierarchy, PDF/PNG output</div>
+    </div>
+    <div class="skill-card" data-color="purple" onclick="sendPrompt('Use OMEGA to create a pro presentation')">
+      <div class="skill-tag">Slides</div>
+      <div class="skill-name">Pro PowerPoint</div>
+      <div class="skill-desc">Impact-first structure, data-ink ratio, one message per slide</div>
+    </div>
+    <div class="skill-card" data-color="blue" onclick="sendPrompt('Use OMEGA to co-author a technical document')">
+      <div class="skill-tag">Docs</div>
+      <div class="skill-name">Doc Co-authoring</div>
+      <div class="skill-desc">Structured workflow, proposals, specs, decision docs</div>
+    </div>
+    <div class="skill-card" data-color="teal" onclick="sendPrompt('Use OMEGA to build a complex web artifact')">
+      <div class="skill-tag">Frontend</div>
+      <div class="skill-name">Web Artifacts</div>
+      <div class="skill-desc">React, Tailwind, shadcn/ui — multi-component apps</div>
+    </div>
+    <div class="skill-card" data-color="amber" onclick="sendPrompt('Use OMEGA to create a new skill')">
+      <div class="skill-tag">Meta</div>
+      <div class="skill-name">Skill Creator</div>
+      <div class="skill-desc">Draft → test → eval → iterate → package skill loop</div>
+    </div>
+    <div class="skill-card" data-color="coral" onclick="sendPrompt('Use OMEGA with apex meta quality mode')">
+      <div class="skill-tag">Apex</div>
+      <div class="skill-name">Apex Meta Quality</div>
+      <div class="skill-desc">Orient → Plan → Execute → Verify — always on</div>
+    </div>
+    <div class="skill-card" data-color="green" onclick="sendPrompt('Use OMEGA in caveman mode')">
+      <div class="skill-tag">Compression</div>
+      <div class="skill-name">Caveman Mode</div>
+      <div class="skill-desc">75% token reduction, lite/full/ultra/wenyan-full intensity</div>
+    </div>
+  </div>
+
+  <div class="omega-center">
+    <div class="omega-center-title">Execution Pipeline — always active</div>
+    <div class="pipeline">
+      <div class="phase phase-1">① Orient</div>
+      <div class="arrow-sep">→</div>
+      <div class="phase phase-2">② Map modules</div>
+      <div class="arrow-sep">→</div>
+      <div class="phase phase-3">③ Plan</div>
+      <div class="arrow-sep">→</div>
+      <div class="phase phase-4">④ Execute</div>
+      <div class="arrow-sep">→</div>
+      <div class="phase phase-5">⑤ Verify</div>
+      <div class="arrow-sep">→</div>
+      <div class="phase phase-6">⑥ Elevate ✦</div>
+    </div>
+    <div class="invoke-section">
+      <div class="invoke-title">Trigger commands</div>
+      <div class="invoke-pills">
+        <span class="invoke-pill">/omega</span>
+        <span class="invoke-pill">/superpowers</span>
+        <span class="invoke-pill">fullprojectwithcode</span>
+        <span class="invoke-pill">/caveman</span>
+        <span class="invoke-pill">/research</span>
+        <span class="invoke-pill">explainable ai</span>
+        <span class="invoke-pill">from scratch</span>
+        <span class="invoke-pill">/paraphrase</span>
+        <span class="invoke-pill">architecture comparison</span>
+        <span class="invoke-pill">just frontend</span>
+        <span class="invoke-pill">just backend</span>
+        <span class="invoke-pill">/elevate</span>
+        <span class="invoke-pill">/modules</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="philosophy">
+    Build with the rigor of a <strong>researcher</strong> · Design with the taste of an <strong>artist</strong> · Ship with the pragmatism of an <strong>engineer</strong> · Think with the breadth of a <strong>polymath</strong> · Elevate with the vision of a <strong>founder</strong>
+  </div>
+
+  <div class="omega-footer">
+    OMEGA v1.0.0 — synthesized from 20 elite skills — priority: 100
+  </div>
+
+</div>
+</body>
+</html>
