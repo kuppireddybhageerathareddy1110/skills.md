@@ -1,0 +1,16 @@
+# OS/editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Local runtime/cache output
+.cache/
+.tmp/
+tmp/
+node_modules/
+__pycache__/
+*.pyc
+
+# Generated evaluation output
+eval-viewer/.cache/
+eval-viewer/dist/
